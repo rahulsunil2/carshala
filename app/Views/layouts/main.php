@@ -25,6 +25,9 @@
                         </li>
                     <?php } else { ?>
                         <li class="nav-item">
+                            <a class="nav-link" href="#"><?php echo session()->get('user')['name']; ?></a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="<?php echo site_url('logout'); ?>">Logout</a>
                         </li>
                         <li class="nav-item">

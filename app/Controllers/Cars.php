@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\CarsModel;
 use App\Models\BookingModel;
+use App\Models\UserModel;
 
 class Cars extends BaseController
 {
@@ -18,7 +19,11 @@ class Cars extends BaseController
 
     public function index()
     {
-        $data['cars'] = $this->carsModel->getCars();
+        if (session()->get('userType') === 'agency') {
+            $data['cars'] = $this->carsModel->getCarsByUserID(session()->get('user')['id']);
+        } else {
+            $data['cars'] = $this->carsModel->getCars();
+        }
         echo view('cars/index', $data);
     }
 
@@ -44,7 +49,7 @@ class Cars extends BaseController
             'vehicle_number' => $this->request->getVar('vehicle_number'),
             'seating_capacity' => $this->request->getVar('seating_capacity'),
             'rent_per_day' => $this->request->getVar('rent_per_day'),
-            'car_rental_agency_id' => session()->get('userID')
+            'car_rental_agency_id' => session()->get('user')['id']
         ];
 
         $this->carsModel->addCar($data);
@@ -143,6 +148,7 @@ class Cars extends BaseController
         }
 
         $carsModel = new CarsModel();
+        $userModel = new UserModel();
 
         // Get cars added by the current agency
         $cars = $carsModel->where('car_rental_agency_id', session()->get('id'))->findAll();
@@ -154,13 +160,45 @@ class Cars extends BaseController
             $carBookings = $this->bookingModel->getBookingsByCarID($car['id']);
             foreach ($carBookings as $booking) {
                 $booking['car'] = $car;
-                $booking['customer'] = $this->bookingModel->getCustomerDetails($booking['customer_id']);
+                $booking['user'] = $this->$userModel->getUserByID($booking['customer_id']);
                 $bookings[] = $booking;
             }
         }
 
-        return view('car_rental_agency/bookings', [
+        return view('cars/bookings', [
             'bookings' => $bookings
+        ]);
+    }
+
+    public function viewBookingsByCarId($car_id)
+    {
+        // Check if user is a car rental agency
+        if (session()->get('userType') != 'agency') {
+            // Redirect to homepage if user is not a car rental agency
+            return redirect()->to('/');
+        }
+
+        $carsModel = new CarsModel();
+        $userModel = new UserModel();
+
+        // Get car details
+        $car = $carsModel->getCarByID($car_id);
+
+
+        $bookings = [];
+
+        // Get bookings for the car
+        $carBookings = $this->bookingModel->getBookingsByCarID($car_id);
+
+        foreach ($carBookings as $booking) {
+            // $booking['customer'] = $userModel->getUserByID($booking['customer_id']);
+            $booking['customer'] = $userModel->getUserByID($booking['customer_id']);
+            $bookings[] = $booking;
+        }
+
+        return view('cars/bookings_by_car', [
+            'bookings' => $bookings,
+            'car' => $car
         ]);
     }
 }

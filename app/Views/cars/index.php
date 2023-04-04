@@ -7,6 +7,11 @@
         <div class="col-md-8">
             <h1>Available Cars</h1>
         </div>
+        <div class="col-md-4 text-end">
+            <?php if (session()->get('user') && session()->get('userType') === 'agency') : ?>
+                <a href="<?= site_url('/cars/add') ?>" class="btn btn-primary">Add Car</a>
+            <?php endif; ?>
+        </div>
     </div>
     <div class="row mt-3">
         <?php if (!empty($cars)) : ?>
@@ -48,9 +53,15 @@
                                     <button type="submit" class="btn btn-primary">Rent</button>
                                 </form>
 
+                            <?php elseif ((session()->get('user')) && (session()->get('userType') == 'agency')) : ?>
+                                <a href="<?= site_url('/cars/edit/' . $car['id']) ?>" class="btn btn-primary">Edit</a>
+                                <a href="<?= site_url('/cars/delete/' . $car['id']) ?>" class="btn btn-danger">Delete</a>
+                                <a href="<?= site_url('/cars/booked-cars/' . $car['id']) ?>" class="btn btn-primary">View Bookings</a>
+
                             <?php else : ?>
                                 <a href="<?= site_url('/login') ?>" class="btn btn-primary">Login to Rent</a>
                             <?php endif; ?>
+
                         </div>
                     </div>
                 </div>

@@ -38,16 +38,16 @@ class BookingModel extends Model
             ->where('bookings.customer_id', $customer_id)
             ->orderBy('bookings.booking_start_date', 'ASC')
             ->get();
-        return $query->getResult();
+        return $query->getResultArray();
     }
 
     public function getBookingsByCarId($car_id)
     {
-        $query = $this->select('bookings.*, customers.name')
-            ->join('customers', 'customers.id = bookings.customer_id')
+        $query = $this->select('bookings.*, cars.vehicle_model, cars.vehicle_number')
+            ->join('cars', 'cars.id = bookings.car_id')
             ->where('bookings.car_id', $car_id)
             ->orderBy('bookings.booking_start_date', 'ASC')
             ->get();
-        return $query->getResult();
+        return $query->getResultArray();
     }
 }

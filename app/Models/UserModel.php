@@ -16,6 +16,11 @@ class UserModel extends Model
         return $this->where('email', $email)->first();
     }
 
+    public function getUserById($id)
+    {
+        return $this->where('id', $id)->first();
+    }
+
     public function createUser($data)
     {
         return $this->insert($data);
