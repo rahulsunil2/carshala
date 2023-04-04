@@ -12,9 +12,15 @@ class BookingModel extends Model
         'customer_id',
         'car_id',
         'booking_start_date',
-        'booking_end_date',
+        'no_of_days',
         'total_rent'
     ];
+
+    public function addBooking($data)
+    {
+        $this->insert($data);
+        return $this->insertID();
+    }
 
     public function getBookingById($id)
     {

@@ -25,7 +25,7 @@ class Cars extends BaseController
     public function add()
     {
         // Check if the user is logged in as a car rental agency
-        if (!session()->get('isLoggedIn') || session()->get('userType') != 'agency') {
+        if (!session()->get('user') || session()->get('userType') !== 'agency') {
             return redirect()->to('/login');
         }
 
@@ -35,7 +35,7 @@ class Cars extends BaseController
     public function save()
     {
         // Check if the user is logged in as a car rental agency
-        if (!session()->get('isLoggedIn') || session()->get('userType') != 'agency') {
+        if (!session()->get('user') || session()->get('userType') !== 'agency') {
             return redirect()->to('/login');
         }
 
@@ -44,8 +44,7 @@ class Cars extends BaseController
             'vehicle_number' => $this->request->getVar('vehicle_number'),
             'seating_capacity' => $this->request->getVar('seating_capacity'),
             'rent_per_day' => $this->request->getVar('rent_per_day'),
-            'car_rental_agency_id' => session()->get('userID'),
-            'available' => '1'
+            'car_rental_agency_id' => session()->get('userID')
         ];
 
         $this->carsModel->addCar($data);
@@ -55,7 +54,7 @@ class Cars extends BaseController
     public function edit($id)
     {
         // Check if the user is logged in as a car rental agency
-        if (!session()->get('isLoggedIn') || session()->get('userType') != 'agency') {
+        if (!session()->get('user') || session()->get('userType') !== 'agency') {
             return redirect()->to('/login');
         }
 
@@ -102,35 +101,21 @@ class Cars extends BaseController
         return redirect()->to('/cars')->with('success', 'Car deleted successfully.');
     }
 
-    public function book($id)
+    public function book()
     {
-        $carsModel = new CarsModel();
-
-        // Check if car is available for the requested dates
-        $isCarAvailable = $carsModel->isCarAvailable($id, $this->request->getPost('start_date'), $this->request->getPost('end_date'));
-
-        if (!$isCarAvailable) {
-            // Car is not available for the requested dates, show error message
-            return redirect()->back()->with('error', 'Car is not available for the selected dates.');
-        }
+        $bookingModel = new BookingModel();
+        $car_id = $this->request->getPost('car_id');
 
         // Add booking details to the database
         $bookingData = [
-            'car_id' => $id,
-            'customer_id' => session()->get('id'),
+            'car_id' => $car_id,
+            'customer_id' => session()->get('user')['id'],
             'booking_start_date' => $this->request->getPost('start_date'),
-            'booking_end_date' => $this->request->getPost('end_date'),
-            'total_rent' => $this->request->getPost('total_rent'),
-            'status' => 'Booked'
+            'no_of_days' => $this->request->getPost('no_of_days'),
+            'total_rent' => $this->request->getPost('rent_per_day') * $this->request->getPost('no_of_days'),
         ];
 
-        $this->bookingModel->insert($bookingData);
-
-        // Update car availability status
-        $carData = [
-            'available' => 0
-        ];
-        $carsModel->update($id, $carData);
+        $bookingModel->insert($bookingData);
 
         return redirect()->to('/')->with('success', 'Car booked successfully!');
     }
@@ -138,7 +123,7 @@ class Cars extends BaseController
     public function viewBookedCars()
     {
         // Check if user is a car rental agency
-        if (session()->get('user_type') != 'agency') {
+        if (session()->get('userType') != 'agency') {
             // Redirect to homepage if user is not a car rental agency
             return redirect()->to('/');
         }

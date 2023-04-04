@@ -1,52 +1,32 @@
-<?= $this->extend('layouts/main') ?>
+<?php $this->extend('layouts/main'); ?>
 
-<?= $this->section('content') ?>
-
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Add Car</h3>
-                </div>
-                <div class="card-body">
-                    <?php if (session()->has('errors')) : ?>
-                        <div class="alert alert-danger" role="alert">
-                            <?php foreach (session('errors') as $error) : ?>
-                                <p><?= esc($error) ?></p>
-                            <?php endforeach ?>
-                        </div>
-                    <?php endif ?>
-
-                    <?= form_open('/cars/save') ?>
-
-                    <div class="mb-3">
-                        <?= form_label('Vehicle Model', 'vehicle_model', ['class' => 'form-label']) ?>
-                        <?= form_input('vehicle_model', '', ['class' => 'form-control']) ?>
+<?php $this->section('content'); ?>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Add Car</div>
+            <div class="card-body">
+                <form method="post" action="<?= site_url('cars/save') ?>">
+                    <div class="form-group">
+                        <label for="vehicle_model">Vehicle Model</label>
+                        <input type="text" class="form-control" id="vehicle_model" name="vehicle_model" required>
                     </div>
-
-                    <div class="mb-3">
-                        <?= form_label('Vehicle Number', 'vehicle_number', ['class' => 'form-label']) ?>
-                        <?= form_input('vehicle_number', '', ['class' => 'form-control']) ?>
+                    <div class="form-group">
+                        <label for="vehicle_number">Vehicle Number</label>
+                        <input type="text" class="form-control" id="vehicle_number" name="vehicle_number" required>
                     </div>
-
-                    <div class="mb-3">
-                        <?= form_label('Seating Capacity', 'seating_capacity', ['class' => 'form-label']) ?>
-                        <?= form_input('seating_capacity', '', ['class' => 'form-control']) ?>
+                    <div class="form-group">
+                        <label for="seating_capacity">Seating Capacity</label>
+                        <input type="number" class="form-control" id="seating_capacity" name="seating_capacity" required>
                     </div>
-
-                    <div class="mb-3">
-                        <?= form_label('Rent per Day', 'rent_per_day', ['class' => 'form-label']) ?>
-                        <?= form_input('rent_per_day', '', ['class' => 'form-control']) ?>
+                    <div class="form-group">
+                        <label for="rent_per_day">Rent per Day</label>
+                        <input type="number" class="form-control" id="rent_per_day" name="rent_per_day" required>
                     </div>
-
-                    <?= form_submit('submit', 'Add Car', ['class' => 'btn btn-primary']) ?>
-
-                    <?= form_close() ?>
-                </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
-
-<?= $this->endSection() ?>
+<?php $this->endSection(); ?>

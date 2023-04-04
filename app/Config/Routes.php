@@ -55,7 +55,7 @@ $routes->group('cars', function ($routes) {
     $routes->get('edit/(:num)', 'Cars::edit/$1');
     $routes->post('update/(:num)', 'Cars::update/$1');
     $routes->get('delete/(:num)', 'Cars::delete/$1');
-    $routes->get('book/(:num)', 'Cars::book/$1');
+    $routes->post('book', 'Cars::book');
     $routes->get('booked-cars', 'Cars::viewBookedCars');
 });
 
