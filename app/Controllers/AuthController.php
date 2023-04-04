@@ -70,7 +70,7 @@ class AuthController extends BaseController
             // Set the user session
             $session = session();
             $session->set('user', $user);
-            $session->set('user_type', $user['type']);
+            $session->set('userType', $user['type']);
 
             // Redirect to the home page
             return redirect()->to(site_url('/'));
