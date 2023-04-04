@@ -12,7 +12,7 @@ class BookingModel extends Model
         'customer_id',
         'car_id',
         'booking_start_date',
-        'no_of_days',
+        'booking_end_date',
         'total_rent'
     ];
 

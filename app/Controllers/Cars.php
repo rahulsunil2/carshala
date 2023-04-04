@@ -18,7 +18,7 @@ class Cars extends BaseController
 
     public function index()
     {
-        $data['cars'] = $this->carsModel->getAvailableCars();
+        $data['cars'] = $this->carsModel->getCars();
         echo view('cars/index', $data);
     }
 
@@ -103,21 +103,35 @@ class Cars extends BaseController
 
     public function book()
     {
+        if (!session()->get('user') || session()->get('userType') !== 'customer') {
+            return redirect()->to('/login');
+        }
         $bookingModel = new BookingModel();
         $car_id = $this->request->getPost('car_id');
+        $booking_end_date = date('Y-m-d', strtotime($this->request->getPost('start_date') . ' + ' . $this->request->getPost('no_of_days') . ' days'));
+
+        $carsModel = new CarsModel();
+
+        // Check if car is available for the requested dates
+        $isCarAvailable = $carsModel->isCarAvailable($car_id, $this->request->getPost('start_date'), $booking_end_date);
+
+        if (!$isCarAvailable) {
+            // Car is not available for the requested dates, show error message
+            return redirect()->back()->withInput()->with('error', 'Car is not available for the requested dates.');
+        }
 
         // Add booking details to the database
         $bookingData = [
             'car_id' => $car_id,
             'customer_id' => session()->get('user')['id'],
             'booking_start_date' => $this->request->getPost('start_date'),
-            'no_of_days' => $this->request->getPost('no_of_days'),
+            'booking_end_date' => $booking_end_date,
             'total_rent' => $this->request->getPost('rent_per_day') * $this->request->getPost('no_of_days'),
         ];
 
         $bookingModel->insert($bookingData);
 
-        return redirect()->to('/')->with('success', 'Car booked successfully!');
+        return redirect()->to('/cars')->with('success', 'Car booked successfully.');
     }
 
     public function viewBookedCars()

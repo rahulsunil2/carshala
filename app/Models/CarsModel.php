@@ -10,17 +10,13 @@ class CarsModel extends Model
     protected $primaryKey = 'id';
     protected $allowedFields = ['vehicle_model', 'vehicle_number', 'seating_capacity', 'rent_per_day', 'car_rental_agency_id'];
 
-    public function getAvailableCars()
+
+
+    public function getCars()
     {
-        // Return Cars that are not in bookings table
-        $query = $this->db->query("
-            SELECT *
-            FROM cars
-            WHERE id NOT IN (
-                SELECT car_id FROM bookings
-            )
-        ");
-        return $query->getResultArray();
+        return $this->select('id, vehicle_model, vehicle_number, seating_capacity, rent_per_day')
+            ->orderBy('id', 'DESC')
+            ->findAll();
     }
 
     public function getCarByID($id)
@@ -44,5 +40,16 @@ class CarsModel extends Model
     public function deleteCar($id)
     {
         $this->delete($id);
+    }
+
+    public function isCarAvailable($car_id, $start_date, $end_date)
+    {
+        $query = $this->db->query("
+            SELECT COUNT(*) as count
+            FROM Bookings
+            WHERE car_id = ? AND booking_start_date <= ? AND booking_end_date >= ?
+        ", [$car_id, $end_date, $start_date]);
+        $row = $query->getRow();
+        return ($row->count == 0);
     }
 }
