@@ -29,26 +29,26 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
-$routes->get('login', 'AuthController::login');
-$routes->get('logout', 'AuthController::logout');
+$routes->get('/', 'HomeController::index');
+$routes->get('login', 'UserController::login');
+$routes->get('logout', 'UserController::logout');
 
 $routes->group('cars', function ($routes) {
-    $routes->get('/', 'Cars::index');
-    $routes->get('add', 'Cars::add');
-    $routes->post('save', 'Cars::save');
-    $routes->get('edit/(:num)', 'Cars::edit/$1');
-    $routes->post('update/(:num)', 'Cars::update/$1');
-    $routes->get('delete/(:num)', 'Cars::delete/$1');
-    $routes->post('book', 'Cars::book');
-    $routes->get('booked-cars', 'Cars::viewBookings');
-    $routes->get('booked-cars/(:num)', 'Cars::viewBookingsByCarId/$1');
+    $routes->get('/', 'CarsController::index');
+    $routes->get('add', 'CarsController::add');
+    $routes->post('save', 'CarsController::save');
+    $routes->get('edit/(:num)', 'CarsController::edit/$1');
+    $routes->post('update/(:num)', 'CarsController::update/$1');
+    $routes->get('delete/(:num)', 'CarsController::delete/$1');
+    $routes->post('book', 'CarsController::book');
+    $routes->get('booked-cars', 'CarsController::viewBookings');
+    $routes->get('booked-cars/(:num)', 'CarsController::viewBookingsByCarId/$1');
 });
 
-$routes->group('auth', function ($routes) {
-    $routes->get('register/(:any)', 'AuthController::register/$1');
-    $routes->post('create', 'AuthController::create');
-    $routes->post('authenticate', 'AuthController::authenticate');
+$routes->group('user', function ($routes) {
+    $routes->get('register/(:any)', 'UserController::register/$1');
+    $routes->post('create', 'UserController::create');
+    $routes->post('authenticate', 'UserController::authenticate');
 });
 
 /*

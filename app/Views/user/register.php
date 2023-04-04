@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-6 mx-auto">
         <h2 class="text-center"><?php echo $title; ?></h2>
-        <form method="post" action="<?= site_url('auth/create') ?>">
+        <form method="post" action="<?= site_url('user/create') ?>">
             <?= csrf_field() ?>
             <div class="form-group">
                 <label for="name">Name</label>

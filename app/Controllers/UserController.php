@@ -2,11 +2,9 @@
 
 namespace App\Controllers;
 
-// use App\Models\CustomerModel;
-// use App\Models\CarRentalAgencyModel;
 use App\Models\UserModel;
 
-class AuthController extends BaseController
+class UserController extends BaseController
 {
     public function register($type)
     {
@@ -22,7 +20,7 @@ class AuthController extends BaseController
                 'title' => 'Agency Registration',
                 'user_type' => $type,
             ];
-        return view('auth/register', $data);
+        return view('user/register', $data);
     }
 
     public function create()
@@ -50,7 +48,7 @@ class AuthController extends BaseController
     public function login()
     {
         // Load the login view for customers
-        return view('auth/login');
+        return view('user/login');
     }
 
     public function authenticate()
@@ -79,7 +77,7 @@ class AuthController extends BaseController
             $data['error'] = 'Invalid email or password';
 
             // Load the login view with error message
-            return view('auth/login', $data);
+            return view('user/login', $data);
         }
     }
 

@@ -6,7 +6,7 @@ use App\Models\CarsModel;
 use App\Models\BookingModel;
 use App\Models\UserModel;
 
-class Cars extends BaseController
+class CarsController extends BaseController
 {
     protected $carsModel;
     protected $bookingModel;

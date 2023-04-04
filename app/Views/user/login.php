@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-6 mx-auto">
         <h2 class="text-center">Login</h2>
-        <form method="post" action="<?= site_url('auth/authenticate') ?>">
+        <form method="post" action="<?= site_url('user/authenticate') ?>">
             <?= csrf_field() ?>
             <?php if (isset($error)) : ?>
                 <div class="alert alert-danger"><?= $error ?></div>
@@ -20,10 +20,10 @@
                 <button type="submit" class="btn btn-primary">Login</button>
             </div>
             <div class="text-center mt-3">
-                <a href="<?= site_url('auth/register/agency') ?>">Register as Agency</a>
+                <a href="<?= site_url('user/register/agency') ?>">Register as Agency</a>
             </div>
             <div class="text-center mt-3">
-                <a href="<?= site_url('auth/register/customer') ?>">Register as Customer</a>
+                <a href="<?= site_url('user/register/customer') ?>">Register as Customer</a>
             </div>
         </form>
     </div>
