@@ -44,7 +44,8 @@ class Cars extends BaseController
             'vehicle_number' => $this->request->getVar('vehicle_number'),
             'seating_capacity' => $this->request->getVar('seating_capacity'),
             'rent_per_day' => $this->request->getVar('rent_per_day'),
-            'car_rental_agency_id' => session()->get('userID')
+            'car_rental_agency_id' => session()->get('userID'),
+            'available' => '1'
         ];
 
         $this->carsModel->addCar($data);

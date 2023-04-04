@@ -6,6 +6,7 @@ use CodeIgniter\Model;
 
 class CustomerModel extends Model
 {
+
     protected $table = 'customers';
     protected $primaryKey = 'id';
     protected $allowedFields = ['name', 'email', 'password'];
@@ -32,6 +33,12 @@ class CustomerModel extends Model
 
     public function getBookings()
     {
-        return $this->hasMany('App\Models\BookingModel', 'customer_id', 'id');
+        // return $this->hasMany('App\Models\BookingModel', 'customer_id', 'id');
+        $query = $this->db->query("
+            SELECT *
+            FROM bookings
+            WHERE customer_id = ?
+        ", [$this->id]);
+        return $query->getResult();
     }
 }
