@@ -10,6 +10,26 @@ class CarRentalAgencyModel extends Model
     protected $primaryKey = 'id';
     protected $allowedFields = ['name', 'email', 'password'];
 
+    public function getAgencyByEmail($email)
+    {
+        return $this->where('email', $email)->first();
+    }
+
+    public function createAgency($data)
+    {
+        return $this->insert($data);
+    }
+
+    public function updateAgency($id, $data)
+    {
+        return $this->update($id, $data);
+    }
+
+    public function deleteAgency($id)
+    {
+        return $this->delete($id);
+    }
+
     public function getCars($agency_id)
     {
         $query = $this->db->query("SELECT * FROM cars WHERE car_rental_agency_id = $agency_id");

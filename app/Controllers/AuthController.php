@@ -2,55 +2,48 @@
 
 namespace App\Controllers;
 
-use App\Models\CustomerModel;
-use App\Models\CarRentalAgencyModel;
+// use App\Models\CustomerModel;
+// use App\Models\CarRentalAgencyModel;
+use App\Models\UserModel;
 
 class AuthController extends BaseController
 {
     public function registerCustomer()
     {
-        helper(['form']);
-
-        $rules = [
-            'name' => 'required',
-            'email' => 'required|valid_email|is_unique[customers.email]',
-            'password' => 'required|min_length[8]',
-        ];
-
-        if ($this->validate($rules)) {
-            $customerModel = new CustomerModel();
-            $customerModel->createCustomer([
-                'name' => $this->request->getVar('name'),
-                'email' => $this->request->getVar('email'),
-                'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
-            ]);
-            return redirect()->to('/login');
-        } else {
-            return view('register_customer');
-        }
+        // Load the registration view for customers
+        return view('auth/register', [
+            'title' => 'Customer Registration',
+            'user_type' => 'customer',
+        ]);
     }
 
     public function registerAgency()
     {
-        helper(['form']);
+        // Load the registration view for agency
+        return view('auth/register', [
+            'title' => 'Agency Registration',
+            'user_type' => 'agency',
+        ]);
+    }
 
-        $rules = [
-            'name' => 'required',
-            'email' => 'required|valid_email|is_unique[carrentalagency.email]',
-            'password' => 'required|min_length[8]',
+    public function create()
+    {
+        // Get the customer model
+        $model = new UserModel();
+
+        // Get the form input data
+        $data = [
+            'name' => $this->request->getVar('name'),
+            'email' => $this->request->getVar('email'),
+            'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
+            'type' => $this->request->getVar('user_type'),
         ];
 
-        if ($this->validate($rules)) {
-            $agencyModel = new CarRentalAgencyModel();
-            $agencyModel->createCustomer([
-                'name' => $this->request->getVar('name'),
-                'email' => $this->request->getVar('email'),
-                'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
-            ]);
-            return redirect()->to('/login');
-        } else {
-            return view('register_agency');
-        }
+        // Create the customer record
+        $model->createUser($data);
+
+        // Redirect to the login page
+        return redirect()->to(site_url('login'));
     }
 
     // Login method
@@ -70,14 +63,14 @@ class AuthController extends BaseController
         $isValid = false;
         $userData = null;
         if ($userType === 'customer') {
-            $customerModel = new CustomerModel();
-            $userData = $customerModel->getCustomerByEmail($email);
+            $customerModel = new UserModel();
+            $userData = $customerModel->getUserByEmail($email);
             if ($userData && password_verify($password, $userData['password'])) {
                 $isValid = true;
             }
         } elseif ($userType === 'agency') {
-            $agencyModel = new CarRentalAgencyModel();
-            $userData = $agencyModel->getAgencyByEmail($email);
+            $agencyModel = new UserModel();
+            $userData = $agencyModel->getUserByEmail($email);
             if ($userData && password_verify($password, $userData['password'])) {
                 $isValid = true;
             }
@@ -99,7 +92,7 @@ class AuthController extends BaseController
 
         // If invalid, show error message
         $data['error'] = 'Invalid email or password';
-        return view('login', $data);
+        return view('auth/login', $data);
     }
 
     // Logout method

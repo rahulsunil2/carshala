@@ -7,31 +7,6 @@ use CodeIgniter\Controller;
 
 class Customers extends Controller
 {
-    public function register()
-    {
-        // Load the registration view for customers
-        return view('customers/register');
-    }
-
-    public function create()
-    {
-        // Get the customer model
-        $model = new CustomerModel();
-
-        // Get the form input data
-        $data = [
-            'name' => $this->request->getVar('name'),
-            'email' => $this->request->getVar('email'),
-            'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
-        ];
-
-        // Create the customer record
-        $model->createCustomer($data);
-
-        // Redirect to the login page
-        return redirect()->to(site_url('login'));
-    }
-
     public function login()
     {
         // Load the login view for customers
