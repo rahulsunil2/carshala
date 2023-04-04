@@ -32,6 +32,10 @@
                     <label for="rent_per_day">Rent per day</label>
                     <input type="number" class="form-control" id="rent_per_day" name="rent_per_day" value="<?= old('rent_per_day', $car['rent_per_day']) ?>">
                 </div>
+                <div class="form-group">
+                    <label for="vehicle_image">Vehicle Image</label>
+                    <input type="text" class="form-control" id="vehicle_image" name="vehicle_image" required>
+                </div>
                 <button type="submit" class="btn btn-primary">Update</button>
                 <a href="<?= base_url('cars') ?>" class="btn btn-secondary">Cancel</a>
             </form>

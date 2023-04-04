@@ -47,6 +47,7 @@ class CarsController extends BaseController
         $data = [
             'vehicle_model' => $this->request->getVar('vehicle_model'),
             'vehicle_number' => $this->request->getVar('vehicle_number'),
+            'vehicle_image' => $this->request->getVar('vehicle_image'),
             'seating_capacity' => $this->request->getVar('seating_capacity'),
             'rent_per_day' => $this->request->getVar('rent_per_day'),
             'car_rental_agency_id' => session()->get('user')['id']
@@ -80,7 +81,8 @@ class CarsController extends BaseController
             'vehicle_model' => 'required',
             'vehicle_number' => 'required',
             'seating_capacity' => 'required|numeric',
-            'rent_per_day' => 'required|numeric'
+            'rent_per_day' => 'required|numeric',
+            'vehicle_image' => $this->request->getVar('vehicle_image'),
         ])) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
@@ -89,7 +91,8 @@ class CarsController extends BaseController
             'vehicle_model' => $this->request->getPost('vehicle_model'),
             'vehicle_number' => $this->request->getPost('vehicle_number'),
             'seating_capacity' => $this->request->getPost('seating_capacity'),
-            'rent_per_day' => $this->request->getPost('rent_per_day')
+            'rent_per_day' => $this->request->getPost('rent_per_day'),
+            'vehicle_image' => $this->request->getVar('vehicle_image'),
         ];
 
         $model->updateCar($id, $data);

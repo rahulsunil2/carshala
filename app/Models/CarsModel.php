@@ -8,13 +8,13 @@ class CarsModel extends Model
 {
     protected $table = 'cars';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['vehicle_model', 'vehicle_number', 'seating_capacity', 'rent_per_day', 'car_rental_agency_id'];
+    protected $allowedFields = ['vehicle_model', 'vehicle_number', 'seating_capacity', 'rent_per_day', 'car_rental_agency_id', 'vehicle_image'];
 
 
 
     public function getCars()
     {
-        return $this->select('id, vehicle_model, vehicle_number, seating_capacity, rent_per_day')
+        return $this->select('id, vehicle_model, vehicle_number, seating_capacity, rent_per_day, vehicle_image')
             ->orderBy('id', 'DESC')
             ->findAll();
     }
@@ -22,7 +22,7 @@ class CarsModel extends Model
     public function getCarsByAgencyID($agency_id)
     {
         return $this->where('car_rental_agency_id', $agency_id)
-            ->select('id, vehicle_model, vehicle_number, seating_capacity, rent_per_day')
+            ->select('id, vehicle_model, vehicle_number, seating_capacity, rent_per_day, vehicle_image')
             ->orderBy('id', 'DESC')
             ->findAll();
     }
@@ -30,7 +30,7 @@ class CarsModel extends Model
     public function getCarByID($id)
     {
         return $this->where('id', $id)
-            ->select('id, vehicle_model, vehicle_number, seating_capacity, rent_per_day')
+            ->select('id, vehicle_model, vehicle_number, seating_capacity, rent_per_day, vehicle_image')
             ->first();
     }
 

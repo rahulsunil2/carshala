@@ -27,7 +27,7 @@
             <?php foreach ($cars as $car) : ?>
                 <div class="col-md-4 mb-3">
                     <div class="card">
-                        <img src="https://cdni.autocarindia.com/utils/imageresizer.ashx?n=https://cms.haymarketindia.net/model/uploads/modelimages/Hyundai-Grand-i10-Nios-200120231541.jpg" class="card-img-top" alt="<?= $car['vehicle_model'] ?>">
+                        <img src="<?= $car['vehicle_image'] ?>" class="card-img-top" alt="<?= $car['vehicle_model'] ?>" onerror="this.src='https://images.garipoint.com/images/vehicle_notavailable.jpg'">
                         <div class="card-body">
                             <h5 class="card-title"><?= $car['vehicle_model'] ?></h5>
                             <p class="card-text"><strong>Vehicle Number:</strong> <?= $car['vehicle_number'] ?></p>

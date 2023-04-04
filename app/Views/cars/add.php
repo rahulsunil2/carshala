@@ -23,6 +23,10 @@
                         <label for="rent_per_day">Rent per Day</label>
                         <input type="number" class="form-control" id="rent_per_day" name="rent_per_day" required>
                     </div>
+                    <div class="form-group">
+                        <label for="vehicle_image">Vehicle Image</label>
+                        <input type="text" class="form-control" id="vehicle_image" name="vehicle_image" required>
+                    </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>
             </div>
