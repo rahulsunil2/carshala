@@ -41,6 +41,7 @@ $routes->group('cars', function ($routes) {
     $routes->post('update/(:num)', 'Cars::update/$1');
     $routes->get('delete/(:num)', 'Cars::delete/$1');
     $routes->post('book', 'Cars::book');
+    $routes->get('booked-cars', 'Cars::viewBookings');
     $routes->get('booked-cars/(:num)', 'Cars::viewBookingsByCarId/$1');
 });
 

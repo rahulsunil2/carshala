@@ -19,7 +19,7 @@ class CarsModel extends Model
             ->findAll();
     }
 
-    public function getCarsByUserID($agency_id)
+    public function getCarsByAgencyID($agency_id)
     {
         return $this->where('car_rental_agency_id', $agency_id)
             ->select('id, vehicle_model, vehicle_number, seating_capacity, rent_per_day')

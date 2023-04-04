@@ -20,7 +20,7 @@ class Cars extends BaseController
     public function index()
     {
         if (session()->get('userType') === 'agency') {
-            $data['cars'] = $this->carsModel->getCarsByUserID(session()->get('user')['id']);
+            $data['cars'] = $this->carsModel->getCarsByAgencyID(session()->get('user')['id']);
         } else {
             $data['cars'] = $this->carsModel->getCars();
         }
@@ -139,7 +139,7 @@ class Cars extends BaseController
         return redirect()->to('/cars')->with('success', 'Car booked successfully.');
     }
 
-    public function viewBookedCars()
+    public function viewBookings()
     {
         // Check if user is a car rental agency
         if (session()->get('userType') != 'agency') {
@@ -149,18 +149,19 @@ class Cars extends BaseController
 
         $carsModel = new CarsModel();
         $userModel = new UserModel();
+        $bookingModel = new BookingModel();
 
         // Get cars added by the current agency
-        $cars = $carsModel->where('car_rental_agency_id', session()->get('id'))->findAll();
+        $cars = $carsModel->getCarsByAgencyID(session()->get('user')['id']);
 
         $bookings = [];
 
         // Loop through each car and get its bookings
         foreach ($cars as $car) {
-            $carBookings = $this->bookingModel->getBookingsByCarID($car['id']);
+            $carBookings = $bookingModel->getBookingsByCarID($car['id']);
             foreach ($carBookings as $booking) {
                 $booking['car'] = $car;
-                $booking['user'] = $this->$userModel->getUserByID($booking['customer_id']);
+                $booking['customer'] = $userModel->getUserByID($booking['customer_id']);
                 $bookings[] = $booking;
             }
         }
@@ -191,7 +192,6 @@ class Cars extends BaseController
         $carBookings = $this->bookingModel->getBookingsByCarID($car_id);
 
         foreach ($carBookings as $booking) {
-            // $booking['customer'] = $userModel->getUserByID($booking['customer_id']);
             $booking['customer'] = $userModel->getUserByID($booking['customer_id']);
             $bookings[] = $booking;
         }
