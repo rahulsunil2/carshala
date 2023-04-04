@@ -66,6 +66,13 @@ $routes->group('cars', function ($routes) {
     $routes->get('booked-cars', 'Cars::viewBookedCars');
 });
 
+$routes->group('auth', function ($routes) {
+    $routes->get('register/customer', 'AuthController::registerCustomer');
+    $routes->get('register/agency', 'AuthController::registerAgency');
+    $routes->get('login', 'AuthController::login');
+    $routes->get('logout', 'AuthController::logout');
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
