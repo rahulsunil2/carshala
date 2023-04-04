@@ -31,24 +31,40 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-// Customers
-$routes->get('register', 'Customers::register');
-$routes->post('register', 'Customers::create');
-$routes->get('login', 'Customers::login');
-$routes->post('login', 'Customers::authenticate');
-$routes->get('logout', 'Customers::logout');
-$routes->get('bookings', 'Customers::viewBookings');
+$routes->group('agency', function ($routes) {
 
-// Car Rental Agency
-$routes->get('agency/login', 'Agency::login');
-$routes->post('agency/login', 'Agency::authenticate');
-$routes->get('agency/logout', 'Agency::logout');
-$routes->get('agency/add-car', 'Agency::addCar');
-$routes->post('agency/add-car', 'Agency::createCar');
-$routes->get('cars', 'Agency::viewCars');
-$routes->get('cars/rent', 'Agency::rentCar');
-$routes->post('cars/rent', 'Agency::bookCar');
-$routes->get('agency/bookings', 'Agency::viewBookings');
+    $routes->get('register', 'CarRentalAgency::register');
+    $routes->get('login', 'CarRentalAgency::login');
+    $routes->get('add-car-form', 'CarRentalAgency::addCarForm');
+    $routes->post('add-car', 'CarRentalAgency::addCar');
+    $routes->get('edit-car-form/(:num)', 'CarRentalAgency::editCarForm/$1');
+    $routes->post('edit-car/(:num)', 'CarRentalAgency::editCar/$1');
+    $routes->get('available-cars', 'CarRentalAgency::viewAvailableCars');
+    $routes->get('rent-car/(:num)', 'CarRentalAgency::rentCar/$1');
+    $routes->get('booked-cars/(:num)', 'CarRentalAgency::viewBookedCars/$1');
+});
+
+$routes->group('customers', function ($routes) {
+
+    $routes->get('register', 'Customers::register');
+    $routes->post('create', 'Customers::create');
+    $routes->get('login', 'Customers::login');
+    $routes->post('authenticate', 'Customers::authenticate');
+    $routes->get('logout', 'Customers::logout');
+    $routes->get('bookings', 'Customers::viewBookings');
+});
+
+$routes->group('cars', function ($routes) {
+
+    $routes->get('/', 'Cars::index');
+    $routes->get('add', 'Cars::add');
+    $routes->post('save', 'Cars::save');
+    $routes->get('edit/(:num)', 'Cars::edit/$1');
+    $routes->post('update/(:num)', 'Cars::update/$1');
+    $routes->get('delete/(:num)', 'Cars::delete/$1');
+    $routes->get('book/(:num)', 'Cars::book/$1');
+    $routes->get('booked-cars', 'Cars::viewBookedCars');
+});
 
 /*
  * --------------------------------------------------------------------

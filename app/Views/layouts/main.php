@@ -21,17 +21,17 @@
                 <ul class="navbar-nav ms-auto">
                     <?php if (!session()->get('customer')) { ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo site_url('login'); ?>">Login</a>
+                            <a class="nav-link" href="<?php echo site_url('customers/login'); ?>">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo site_url('register'); ?>">Register</a>
+                            <a class="nav-link" href="<?php echo site_url('customers/register'); ?>">Register</a>
                         </li>
                     <?php } else { ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo site_url('logout'); ?>">Logout</a>
+                            <a class="nav-link" href="<?php echo site_url('customers/logout'); ?>">Logout</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo site_url('bookings'); ?>">Bookings</a>
+                            <a class="nav-link" href="<?php echo site_url('customers/bookings'); ?>">Bookings</a>
                         </li>
                     <?php } ?>
                 </ul>
