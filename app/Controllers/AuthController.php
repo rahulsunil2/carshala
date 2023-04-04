@@ -46,54 +46,44 @@ class AuthController extends BaseController
         return redirect()->to(site_url('login'));
     }
 
+
     // Login method
     public function login()
     {
-        // Get request instance
-        $request = service('request');
-
-        // Get user type from POST request
-        $userType = $request->getPost('user_type');
-
-        // Get email and password from POST request
-        $email = $request->getPost('email');
-        $password = $request->getPost('password');
-
-        // Validate email and password
-        $isValid = false;
-        $userData = null;
-        if ($userType === 'customer') {
-            $customerModel = new UserModel();
-            $userData = $customerModel->getUserByEmail($email);
-            if ($userData && password_verify($password, $userData['password'])) {
-                $isValid = true;
-            }
-        } elseif ($userType === 'agency') {
-            $agencyModel = new UserModel();
-            $userData = $agencyModel->getUserByEmail($email);
-            if ($userData && password_verify($password, $userData['password'])) {
-                $isValid = true;
-            }
-        }
-
-        // If valid, create session and redirect to home page
-        if ($isValid) {
-            $session = session();
-            $sessionData = [
-                'id' => $userData['id'],
-                'name' => $userData['name'],
-                'email' => $userData['email'],
-                'user_type' => $userType,
-                'isLoggedIn' => true
-            ];
-            $session->set($sessionData);
-            return redirect()->to(base_url('/'));
-        }
-
-        // If invalid, show error message
-        $data['error'] = 'Invalid email or password';
-        return view('auth/login', $data);
+        // Load the login view for customers
+        return view('auth/login');
     }
+
+    public function authenticate()
+    {
+        // Get the user model
+        $model = new UserModel();
+
+        // Get the form input data
+        $email = $this->request->getVar('email');
+        $password = $this->request->getVar('password');
+
+        // Get the user record by email
+        $user = $model->getUserByEmail($email);
+
+        // Check if the user exists and the password is correct
+        if ($user && password_verify($password, $user['password'])) {
+            // Set the user session
+            $session = session();
+            $session->set('user', $user);
+            $session->set('user_type', $user['type']);
+
+            // Redirect to the home page
+            return redirect()->to(site_url('/'));
+        } else {
+            // Set the error message
+            $data['error'] = 'Invalid email or password';
+
+            // Load the login view with error message
+            return view('auth/login', $data);
+        }
+    }
+
 
     // Logout method
     public function logout()

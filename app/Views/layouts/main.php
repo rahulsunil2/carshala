@@ -19,12 +19,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <?php if (!session()->get('customer')) { ?>
+                    <?php if (!session()->get('user')) { ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo site_url('customers/login'); ?>">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?php echo site_url('customers/register'); ?>">Register</a>
+                            <a class="nav-link" href="<?php echo site_url('login'); ?>">Login</a>
                         </li>
                     <?php } else { ?>
                         <li class="nav-item">

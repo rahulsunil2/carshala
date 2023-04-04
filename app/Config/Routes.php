@@ -72,6 +72,7 @@ $routes->group('auth', function ($routes) {
     $routes->get('register/customer', 'AuthController::registerCustomer');
     $routes->get('register/agency', 'AuthController::registerAgency');
     $routes->post('create', 'AuthController::create');
+    $routes->post('authenticate', 'AuthController::authenticate');
 });
 
 /*
