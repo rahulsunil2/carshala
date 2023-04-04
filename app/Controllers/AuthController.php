@@ -8,22 +8,21 @@ use App\Models\UserModel;
 
 class AuthController extends BaseController
 {
-    public function registerCustomer()
+    public function register($type)
     {
         // Load the registration view for customers
-        return view('auth/register', [
-            'title' => 'Customer Registration',
-            'user_type' => 'customer',
-        ]);
-    }
 
-    public function registerAgency()
-    {
-        // Load the registration view for agency
-        return view('auth/register', [
-            'title' => 'Agency Registration',
-            'user_type' => 'agency',
-        ]);
+        if ($type == 'customer')
+            $data = [
+                'title' => 'Customer Registration',
+                'user_type' => $type,
+            ];
+        else
+            $data = [
+                'title' => 'Agency Registration',
+                'user_type' => $type,
+            ];
+        return view('auth/register', $data);
     }
 
     public function create()

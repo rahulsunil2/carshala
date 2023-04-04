@@ -7,41 +7,6 @@ use CodeIgniter\Controller;
 
 class Customers extends Controller
 {
-    public function login()
-    {
-        // Load the login view for customers
-        return view('customers/login');
-    }
-
-    public function authenticate()
-    {
-        // Get the customer model
-        $model = new CustomerModel();
-
-        // Get the form input data
-        $email = $this->request->getVar('email');
-        $password = $this->request->getVar('password');
-
-        // Get the customer record by email
-        $customer = $model->getCustomerByEmail($email);
-
-        // Check if the customer exists and the password is correct
-        if ($customer && password_verify($password, $customer['password'])) {
-            // Set the customer session
-            $session = session();
-            $session->set('customer', $customer);
-
-            // Redirect to the home page
-            return redirect()->to(site_url('/'));
-        } else {
-            // Set the error message
-            $data['error'] = 'Invalid email or password';
-
-            // Load the login view with error message
-            return view('customers/login', $data);
-        }
-    }
-
     public function logout()
     {
         // Destroy the customer session

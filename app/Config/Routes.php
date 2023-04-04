@@ -34,9 +34,6 @@ $routes->get('login', 'AuthController::login');
 $routes->get('logout', 'AuthController::logout');
 
 $routes->group('agency', function ($routes) {
-
-    $routes->get('register', 'CarRentalAgency::register');
-    $routes->get('login', 'CarRentalAgency::login');
     $routes->get('add-car-form', 'CarRentalAgency::addCarForm');
     $routes->post('add-car', 'CarRentalAgency::addCar');
     $routes->get('edit-car-form/(:num)', 'CarRentalAgency::editCarForm/$1');
@@ -47,12 +44,6 @@ $routes->group('agency', function ($routes) {
 });
 
 $routes->group('customers', function ($routes) {
-
-    $routes->get('register', 'Customers::register');
-    $routes->post('create', 'Customers::create');
-    $routes->get('login', 'Customers::login');
-    $routes->post('authenticate', 'Customers::authenticate');
-    $routes->get('logout', 'Customers::logout');
     $routes->get('bookings', 'Customers::viewBookings');
 });
 
@@ -69,8 +60,7 @@ $routes->group('cars', function ($routes) {
 });
 
 $routes->group('auth', function ($routes) {
-    $routes->get('register/customer', 'AuthController::registerCustomer');
-    $routes->get('register/agency', 'AuthController::registerAgency');
+    $routes->get('register/(:any)', 'AuthController::register/$1');
     $routes->post('create', 'AuthController::create');
     $routes->post('authenticate', 'AuthController::authenticate');
 });
