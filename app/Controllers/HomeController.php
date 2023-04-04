@@ -6,9 +6,10 @@ class HomeController extends BaseController
 {
     public function index()
     {
-        $data = [
-            'title' => 'Welcome to CarShala'
-        ];
-        return view('home', $data);
+        if (session()->get('userType') === 'agency') {
+            return redirect()->to('/cars/booked-cars');
+        } else {
+            return redirect()->to('/cars');
+        }
     }
 }

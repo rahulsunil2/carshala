@@ -32,13 +32,9 @@
                                 <?php echo session()->get('user')['name']; ?>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">My Profile</a></li>
                                 <?php if (session()->get('userType') === 'agency') { ?>
                                     <li><a class="dropdown-item" href="<?php echo site_url('cars/booked-cars'); ?>">My Listings</a></li>
                                 <?php } ?>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
                                 <li><a class="dropdown-item" href="<?php echo site_url('logout'); ?>">Logout</a></li>
                             </ul>
                         </li>
