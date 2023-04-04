@@ -33,22 +33,7 @@ $routes->get('/', 'Home::index');
 $routes->get('login', 'AuthController::login');
 $routes->get('logout', 'AuthController::logout');
 
-$routes->group('agency', function ($routes) {
-    $routes->get('add-car-form', 'CarRentalAgency::addCarForm');
-    $routes->post('add-car', 'CarRentalAgency::addCar');
-    $routes->get('edit-car-form/(:num)', 'CarRentalAgency::editCarForm/$1');
-    $routes->post('edit-car/(:num)', 'CarRentalAgency::editCar/$1');
-    $routes->get('available-cars', 'CarRentalAgency::viewAvailableCars');
-    $routes->get('rent-car/(:num)', 'CarRentalAgency::rentCar/$1');
-    $routes->get('booked-cars/(:num)', 'CarRentalAgency::viewBookedCars/$1');
-});
-
-$routes->group('customers', function ($routes) {
-    $routes->get('bookings', 'Customers::viewBookings');
-});
-
 $routes->group('cars', function ($routes) {
-
     $routes->get('/', 'Cars::index');
     $routes->get('add', 'Cars::add');
     $routes->post('save', 'Cars::save');
