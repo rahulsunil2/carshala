@@ -14,6 +14,7 @@
                         <th scope="col">Rent per Day</th>
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
+                        <th scope="col">No of Days</th>
                         <th scope="col">Total Rent</th>
                         <?php if (session()->get('user_type') == 'agency') : ?>
                             <th scope="col">Customer Name</th>
@@ -33,6 +34,7 @@
                             <td>₹<?= $booking['car']['rent_per_day'] ?></td>
                             <td><?= $booking['booking_start_date'] ?></td>
                             <td><?= $booking['booking_end_date'] ?></td>
+                            <td><?= $booking['no_of_days'] ?></td>
                             <td>₹<?= $booking['total_rent'] ?></td>
                             <td><?= $booking['user']['name'] ?></td>
                             <td>

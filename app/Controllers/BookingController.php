@@ -69,6 +69,7 @@ class BookingController extends BaseController
             foreach ($carBookings as $booking) {
                 $booking['car'] = $car;
                 $booking['user'] = $this->userModel->getUserByID($booking['customer_id']);
+                $booking['no_of_days'] = (strtotime($booking['booking_end_date']) - strtotime($booking['booking_start_date'])) / (60 * 60 * 24);
                 $bookings[] = $booking;
             }
         }
@@ -94,6 +95,7 @@ class BookingController extends BaseController
         foreach ($carBookings as $booking) {
             $booking['car'] = $this->carsModel->getCarByID($booking['car_id']);
             $booking['user'] = $this->userModel->getUserByID($booking['car']['car_rental_agency_id']);
+            $booking['no_of_days'] = (strtotime($booking['booking_end_date']) - strtotime($booking['booking_start_date'])) / (60 * 60 * 24);
             $bookings[] = $booking;
         }
 
