@@ -13,17 +13,32 @@
 
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <input type="text" class="form-control <?php if (session('errors.name')) : ?>is-invalid<?php endif ?>" id="name" name="name" value="<?= old('name') ?>" required>
+                        <?php if (session('errors.name')) : ?>
+                            <div class="invalid-feedback">
+                                <?= session('errors.name') ?>
+                            </div>
+                        <?php endif ?>
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <input type="email" class="form-control <?php if (session('errors.email')) : ?>is-invalid<?php endif ?>" id="email" name="email" value="<?= old('email') ?>" required>
+                        <?php if (session('errors.email')) : ?>
+                            <div class="invalid-feedback">
+                                <?= session('errors.email') ?>
+                            </div>
+                        <?php endif ?>
                     </div>
 
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                        <input type="password" class="form-control <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" id="password" name="password" required>
+                        <?php if (session('errors.password')) : ?>
+                            <div class="invalid-feedback">
+                                <?= session('errors.password') ?>
+                            </div>
+                        <?php endif ?>
                     </div>
 
                     <input type="hidden" name="user_type" value="<?php echo $user_type; ?>">

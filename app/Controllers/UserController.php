@@ -33,6 +33,14 @@ class UserController extends BaseController
     public function create()
     {
 
+        if (!$this->validate([
+            'name' => 'required|min_length[3]|max_length[50]',
+            'email' => 'required|valid_email|is_unique[users.email]',
+            'password' => 'required|min_length[8]',
+        ])) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         // Get the form input data
         $data = [
             'name' => $this->request->getVar('name'),
@@ -43,6 +51,9 @@ class UserController extends BaseController
 
         // Create the customer record
         $this->userModel->createUser($data);
+
+        // Set Flash message and redirect to login page
+        session()->setFlashdata('success', 'Registration successful. Please login to continue.');
 
         // Redirect to the login page
         return redirect()->to(site_url('login'));

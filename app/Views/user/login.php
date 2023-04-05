@@ -4,6 +4,11 @@
 
 <div class="row justify-content-center align-items-center h-100">
     <div class="col-md-6 col-lg-4">
+        <?php if (session()->getFlashdata('success')) : ?>
+            <div class="alert alert-success" role="alert">
+                <?= session()->getFlashdata('success') ?>
+            </div>
+        <?php endif; ?>
         <div class="card">
             <div class="card-body">
                 <h2 class="text-center mb-4">Login</h2>
