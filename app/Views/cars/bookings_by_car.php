@@ -27,44 +27,38 @@
         </div>
 
         <div class="col-md-8">
-            <?php if (session()->has('success_booking')) : ?>
-                <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-                    <?= session('success_booking') ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            <?php endif; ?>
 
-            <?php if (session()->has('error_booking')) : ?>
-                <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
-                    <?= session('error_booking') ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            <?php endif; ?>
-
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Booking ID</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Total Rent</th>
-                        <th scope="col">Customer Name</th>
-                        <th scope="col">Customer Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($bookings as $booking) : ?>
+            <?php if (count($bookings) > 0) : ?>
+                <table class="table table-striped table-hover">
+                    <thead>
                         <tr>
-                            <td><?= $booking['id'] ?></td>
-                            <td><?= $booking['booking_start_date'] ?></td>
-                            <td><?= $booking['booking_end_date'] ?></td>
-                            <td><?= $booking['total_rent'] ?></td>
-                            <td><?= $booking['customer']['name'] ?></td>
-                            <td><?= $booking['customer']['email'] ?></td>
+                            <th scope="col">Booking ID</th>
+                            <th scope="col">Start Date</th>
+                            <th scope="col">End Date</th>
+                            <th scope="col">Total Rent</th>
+                            <th scope="col">Customer Name</th>
+                            <th scope="col">Customer Email</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($bookings as $booking) : ?>
+                            <tr>
+                                <td><?= $booking['id'] ?></td>
+                                <td><?= $booking['booking_start_date'] ?></td>
+                                <td><?= $booking['booking_end_date'] ?></td>
+                                <td><?= $booking['total_rent'] ?></td>
+                                <td><?= $booking['customer']['name'] ?></td>
+                                <td><?= $booking['customer']['email'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else : ?>
+                <div class="text-center">
+                    <h4 class="my-5">No bookings have been made yet.</h4>
+                </div>
+            <?php endif; ?>
+
         </div>
     </div>
 </div>

@@ -36,18 +36,27 @@
                         <img src="<?= $car['vehicle_image'] ?>" class="card-img-top" alt="<?= $car['vehicle_model'] ?>" onerror="this.src='https://images.garipoint.com/images/vehicle_notavailable.jpg'">
                         <div class="card-body">
                             <h5 class="card-title"><?= $car['vehicle_model'] ?></h5>
-                            <p class="card-text"><strong>Vehicle Number:</strong> <?= $car['vehicle_number'] ?></p>
-                            <p class="card-text"><strong>Seating Capacity:</strong> <?= $car['seating_capacity'] ?></p>
-                            <p class="card-text"><strong>Rent Per Day:</strong> <?= $car['rent_per_day'] ?></p>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <p class="card-text mb-0"><strong>Vehicle Number:</strong></p>
+                                    <p class="card-text"><?= $car['vehicle_number'] ?></p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="card-text mb-0"><strong>Seating Capacity:</strong></p>
+                                    <p class="card-text"><?= $car['seating_capacity'] ?></p>
+                                </div>
+                            </div>
+                            <p class="card-text mb-0"><strong>Rent Per Day:</strong></p>
+                            <p class="card-text"><?= $car['rent_per_day'] ?></p>
 
                             <?php if (session()->get('user') && session()->get('userType') == 'customer') : ?>
                                 <form method="post" action="<?= site_url('/cars/book') ?>" class="mt-4">
-                                    <div class="form-group">
-                                        <label for="start_date">Start Date</label>
+                                    <div class="mb-3">
+                                        <label for="start_date" class="form-label">Start Date</label>
                                         <input type="date" class="form-control" id="start_date" name="start_date" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="no_of_days">Number of Days</label>
+                                    <div class="mb-3">
+                                        <label for="no_of_days" class="form-label">Number of Days</label>
                                         <select class="form-control" id="no_of_days" name="no_of_days" required>
                                             <option value="">Select</option>
                                             <?php for ($i = 1; $i <= 10; $i++) : ?>
@@ -57,22 +66,26 @@
                                     </div>
                                     <input type="hidden" name="rent_per_day" value="<?= $car['rent_per_day'] ?>">
                                     <input type="hidden" name="car_id" value="<?= $car['id'] ?>">
-                                    <button type="submit" class="btn btn-primary btn-block">Rent</button>
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">Rent</button>
+                                    </div>
                                 </form>
 
                             <?php elseif (session()->get('user') && session()->get('userType') == 'agency') : ?>
-                                <div class="mt-4">
-                                    <a href="<?= site_url('/cars/edit/' . $car['id']) ?>" class="btn btn-outline-primary btn-block">Edit</a>
-                                </div>
-                                <div class="mt-2">
-                                    <a href="<?= site_url('/cars/delete/' . $car['id']) ?>" class="btn btn-outline-danger btn-block">Delete</a>
-                                </div>
-                                <div class="mt-2">
-                                    <a href="<?= site_url('/cars/booked-cars/' . $car['id']) ?>" class="btn btn-outline-primary btn-block">View Bookings</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex">
+                                        <a href="<?= site_url('/cars/edit/' . $car['id']) ?>" class="btn btn-outline-primary me-2">Edit</a>
+                                        <a href="<?= site_url('/cars/delete/' . $car['id']) ?>" class="btn btn-outline-danger">Delete</a>
+                                    </div>
+                                    <a href="<?= site_url('/cars/booked-cars/' . $car['id']) ?>" class="btn btn-primary">View Bookings</a>
                                 </div>
 
                             <?php else : ?>
-                                <a href="<?= site_url('/login') ?>" class="btn btn-primary btn-block mt-4">Login to Rent</a>
+
+                                <div class="d-grid gap-2">
+                                    <a href="<?= site_url('/login') ?>" class="btn btn-primary">Login to Rent</a>
+                                </div>
+
                             <?php endif; ?>
 
                         </div>
