@@ -33,9 +33,15 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <?php if (session()->get('userType') === 'agency') { ?>
-                                    <li><a class="dropdown-item" href="<?php echo site_url('cars/booked-cars'); ?>">Agency Bookings</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo site_url('cars/agency-bookings'); ?>">Agency Bookings</a></li>
                                     <li><a class="dropdown-item" href="<?php echo site_url('cars'); ?>">My Cars</a></li>
                                 <?php } ?>
+                                <?php if (session()->get('userType') === 'customer') { ?>
+                                    <li><a class="dropdown-item" href="<?php echo site_url('cars/my-bookings'); ?>">My Bookings</a></li>
+                                <?php } ?>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
                                 <li><a class="dropdown-item" href="<?php echo site_url('logout'); ?>">Logout</a></li>
                             </ul>
                         </li>

@@ -82,7 +82,7 @@ class CarsController extends BaseController
             'vehicle_number' => 'required',
             'seating_capacity' => 'required|numeric',
             'rent_per_day' => 'required|numeric',
-            'vehicle_image' => $this->request->getVar('vehicle_image'),
+            'vehicle_image' => 'required',
         ])) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
@@ -142,7 +142,7 @@ class CarsController extends BaseController
         return redirect()->to('/cars')->with('success', 'Car booked successfully.');
     }
 
-    public function viewBookings()
+    public function viewAgencyBookings()
     {
         // Check if user is a car rental agency
         if (session()->get('userType') != 'agency') {
@@ -164,13 +164,42 @@ class CarsController extends BaseController
             $carBookings = $bookingModel->getBookingsByCarID($car['id']);
             foreach ($carBookings as $booking) {
                 $booking['car'] = $car;
-                $booking['customer'] = $userModel->getUserByID($booking['customer_id']);
+                $booking['user'] = $userModel->getUserByID($booking['customer_id']);
                 $bookings[] = $booking;
             }
         }
 
         return view('cars/bookings', [
-            'bookings' => $bookings
+            'bookings' => $bookings,
+            'title' => 'Agency Bookings'
+        ]);
+    }
+
+    public function viewCustomerBookings()
+    {
+        // Check if user is a car rental agency
+        if (session()->get('userType') != 'customer') {
+            // Redirect to homepage if user is not a car rental agency
+            return redirect()->to('/');
+        }
+
+        $carsModel = new CarsModel();
+        $userModel = new UserModel();
+        $bookingModel = new BookingModel();
+
+        $bookings = [];
+
+        // Loop through each car and get its bookings
+        $carBookings = $bookingModel->getBookingsByCustomerId(session()->get('user')['id']);
+        foreach ($carBookings as $booking) {
+            $booking['car'] = $carsModel->getCarByID($booking['car_id']);
+            $booking['user'] = $userModel->getUserByID($booking['car']['car_rental_agency_id']);
+            $bookings[] = $booking;
+        }
+
+        return view('cars/bookings', [
+            'bookings' => $bookings,
+            'title' => 'My Bookings'
         ]);
     }
 

@@ -30,7 +30,7 @@ class CarsModel extends Model
     public function getCarByID($id)
     {
         return $this->where('id', $id)
-            ->select('id, vehicle_model, vehicle_number, seating_capacity, rent_per_day, vehicle_image')
+            ->select('id, vehicle_model, vehicle_number, seating_capacity, rent_per_day, vehicle_image, car_rental_agency_id')
             ->first();
     }
 
