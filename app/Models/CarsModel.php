@@ -54,7 +54,7 @@ class CarsModel extends Model
     {
         $query = $this->db->query("
             SELECT COUNT(*) as count
-            FROM Bookings
+            FROM bookings
             WHERE car_id = ? AND booking_start_date <= ? AND booking_end_date >= ?
         ", [$car_id, $end_date, $start_date]);
         $row = $query->getRow();
