@@ -15,17 +15,17 @@
             <?php endif; ?>
         </div>
     </div>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        <?php if (!empty($cars)) : ?>
-            <?php if (session()->getFlashdata('success')) : ?>
-                <div class="alert alert-success" role="alert">
-                    <?= session()->getFlashdata('success') ?>
-                </div>
-            <?php elseif (session()->getFlashdata('error')) : ?>
-                <div class="alert alert-danger" role="alert">
-                    <?= session()->getFlashdata('error') ?>
-                </div>
-            <?php endif; ?>
+    <?php if (!empty($cars)) : ?>
+        <?php if (session()->getFlashdata('success')) : ?>
+            <div class="alert alert-success" role="alert">
+                <?= session()->getFlashdata('success') ?>
+            </div>
+        <?php elseif (session()->getFlashdata('error')) : ?>
+            <div class="alert alert-danger" role="alert">
+                <?= session()->getFlashdata('error') ?>
+            </div>
+        <?php endif; ?>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <?php foreach ($cars as $car) : ?>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
@@ -80,7 +80,7 @@
                 No cars available.
             </div>
         <?php endif; ?>
-    </div>
+        </div>
 </div>
 
 <?= $this->endSection() ?>
