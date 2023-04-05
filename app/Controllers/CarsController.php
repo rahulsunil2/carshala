@@ -25,7 +25,6 @@ class CarsController extends BaseController
 
     public function add()
     {
-        // Check if the user is logged in as a car rental agency
         if (!session()->get('user') || session()->get('userType') !== 'agency') {
             return redirect()->to('/login');
         }
@@ -35,7 +34,6 @@ class CarsController extends BaseController
 
     public function save()
     {
-        // Check if the user is logged in as a car rental agency
         if (!session()->get('user') || session()->get('userType') !== 'agency') {
             return redirect()->to('/login');
         }
@@ -55,7 +53,6 @@ class CarsController extends BaseController
 
     public function edit($id)
     {
-        // Check if the user is logged in as a car rental agency
         if (!session()->get('user') || session()->get('userType') !== 'agency') {
             return redirect()->to('/login');
         }
@@ -91,7 +88,6 @@ class CarsController extends BaseController
         ];
 
         $this->carsModel->updateCar($id, $data);
-
         return redirect()->to('/cars')->with('success', 'Car updated successfully.');
     }
 
@@ -99,7 +95,6 @@ class CarsController extends BaseController
     {
 
         $this->carsModel->deleteCar($id);
-
         return redirect()->to('/cars')->with('success', 'Car deleted successfully.');
     }
 }
