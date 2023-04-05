@@ -40,10 +40,10 @@ $routes->group('cars', function ($routes) {
     $routes->get('edit/(:num)', 'CarsController::edit/$1');
     $routes->post('update/(:num)', 'CarsController::update/$1');
     $routes->get('delete/(:num)', 'CarsController::delete/$1');
-    $routes->post('book', 'CarsController::book');
-    $routes->get('agency-bookings', 'CarsController::viewAgencyBookings');
-    $routes->get('my-bookings', 'CarsController::viewCustomerBookings');
-    $routes->get('booked-cars/(:num)', 'CarsController::viewBookingsByCarId/$1');
+    $routes->post('book', 'BookingController::book');
+    $routes->get('agency-bookings', 'BookingController::viewAgencyBookings');
+    $routes->get('my-bookings', 'BookingController::viewCustomerBookings');
+    $routes->get('booked-cars/(:num)', 'BookingController::viewBookingsByCarId/$1');
 });
 
 $routes->group('user', function ($routes) {
