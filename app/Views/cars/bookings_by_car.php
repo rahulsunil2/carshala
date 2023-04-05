@@ -7,7 +7,7 @@
             <h1 class="mb-0">Bookings</h1>
         </div>
         <div class="col-md-4 text-end">
-            <a href="<?= base_url('cars') ?>" class="btn btn-primary"><i class="bi bi-arrow-left"></i> Back to Cars</a>
+            <a href="<?= base_url('cars') ?>" class="btn btn-primary">Back to Cars</a>
         </div>
     </div>
 

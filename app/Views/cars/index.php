@@ -14,7 +14,7 @@
         <div class="col-md-4 text-end">
             <?php if (session()->get('user') && session()->get('userType') === 'agency') : ?>
                 <a href="<?= site_url('/cars/add') ?>" class="btn btn-primary">
-                    <i class="bi bi-plus-lg me-2"></i>Add Car
+                    Add Car
                 </a>
             <?php endif; ?>
         </div>

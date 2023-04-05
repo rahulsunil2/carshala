@@ -33,7 +33,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <?php if (session()->get('userType') === 'agency') { ?>
-                                    <li><a class="dropdown-item" href="<?php echo site_url('cars/agency-bookings'); ?>">Agency Bookings</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo site_url('cars/agency-bookings'); ?>">Booked Cars</a></li>
                                     <li><a class="dropdown-item" href="<?php echo site_url('cars'); ?>">My Cars</a></li>
                                 <?php } ?>
                                 <?php if (session()->get('userType') === 'customer') { ?>
