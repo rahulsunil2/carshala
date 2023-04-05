@@ -30,10 +30,10 @@
                             <td><?= $booking['id'] ?></td>
                             <td><?= $booking['car']['vehicle_model'] ?></td>
                             <td><?= $booking['car']['vehicle_number'] ?></td>
-                            <td>$<?= $booking['car']['rent_per_day'] ?></td>
+                            <td>₹<?= $booking['car']['rent_per_day'] ?></td>
                             <td><?= $booking['booking_start_date'] ?></td>
                             <td><?= $booking['booking_end_date'] ?></td>
-                            <td>$<?= $booking['total_rent'] ?></td>
+                            <td>₹<?= $booking['total_rent'] ?></td>
                             <td><?= $booking['user']['name'] ?></td>
                             <td>
                                 <a href="mailto:<?= $booking['user']['email'] ?>"><?= $booking['user']['email'] ?></a>
