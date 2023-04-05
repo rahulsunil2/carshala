@@ -52,8 +52,9 @@
 
     <footer class="bg-light text-center text-lg-start fixed-bottom">
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-            <span class="text-dark">&copy; 2023 CarShala | Made with ❤ by team @
-                <a class="text-dark" href="https://internshala.com/">Internshala</a>
+            <span class="text-dark">&copy; 2023 CarShala | Made with ❤ by
+                <a class="text-dark" href="https://www.linkedin.com/in/rahulsunil2/" target="_blank">Rahul Sunil</a> for
+                <a class="text-dark" href="https://internshala.com/" target="_blank">Internshala</a>
             </span>
         </div>
     </footer>
