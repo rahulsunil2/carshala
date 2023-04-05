@@ -5,7 +5,11 @@
 <div class="container my-4">
     <div class="row justify-content-between align-items-center mb-4">
         <div class="col-md-8">
-            <h1 class="fw-bold mb-0">Available Cars</h1>
+            <?php if (session()->get('user') && session()->get('userType') === 'agency') : ?>
+                <h1 class="fw-bold mb-0">Agency Cars</h1>
+            <?php else : ?>
+                <h1 class="fw-bold mb-0">Available Cars</h1>
+            <?php endif; ?>
         </div>
         <div class="col-md-4 text-end">
             <?php if (session()->get('user') && session()->get('userType') === 'agency') : ?>

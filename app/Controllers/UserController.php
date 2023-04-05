@@ -6,6 +6,13 @@ use App\Models\UserModel;
 
 class UserController extends BaseController
 {
+    protected $userModel;
+
+    public function __construct()
+    {
+        $this->userModel = new UserModel();
+    }
+
     public function register($type)
     {
         // Load the registration view for customers
@@ -25,8 +32,6 @@ class UserController extends BaseController
 
     public function create()
     {
-        // Get the customer model
-        $model = new UserModel();
 
         // Get the form input data
         $data = [
@@ -37,7 +42,7 @@ class UserController extends BaseController
         ];
 
         // Create the customer record
-        $model->createUser($data);
+        $this->userModel->createUser($data);
 
         // Redirect to the login page
         return redirect()->to(site_url('login'));
@@ -53,15 +58,13 @@ class UserController extends BaseController
 
     public function authenticate()
     {
-        // Get the user model
-        $model = new UserModel();
 
         // Get the form input data
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
 
         // Get the user record by email
-        $user = $model->getUserByEmail($email);
+        $user = $this->userModel->getUserByEmail($email);
 
         // Check if the user exists and the password is correct
         if ($user && password_verify($password, $user['password'])) {

@@ -10,11 +10,13 @@ class CarsController extends BaseController
 {
     protected $carsModel;
     protected $bookingModel;
+    protected $userModel;
 
     public function __construct()
     {
         $this->carsModel = new CarsModel();
         $this->bookingModel = new BookingModel();
+        $this->userModel = new UserModel();
     }
 
     public function index()
@@ -75,7 +77,6 @@ class CarsController extends BaseController
 
     public function update($id)
     {
-        $model = new CarsModel();
 
         if (!$this->validate([
             'vehicle_model' => 'required',
@@ -95,16 +96,15 @@ class CarsController extends BaseController
             'vehicle_image' => $this->request->getVar('vehicle_image'),
         ];
 
-        $model->updateCar($id, $data);
+        $this->carsModel->updateCar($id, $data);
 
         return redirect()->to('/cars')->with('success', 'Car updated successfully.');
     }
 
     public function delete($id)
     {
-        $model = new CarsModel();
 
-        $model->deleteCar($id);
+        $this->carsModel->deleteCar($id);
 
         return redirect()->to('/cars')->with('success', 'Car deleted successfully.');
     }
@@ -114,14 +114,12 @@ class CarsController extends BaseController
         if (!session()->get('user') || session()->get('userType') !== 'customer') {
             return redirect()->to('/login');
         }
-        $bookingModel = new BookingModel();
         $car_id = $this->request->getPost('car_id');
         $booking_end_date = date('Y-m-d', strtotime($this->request->getPost('start_date') . ' + ' . $this->request->getPost('no_of_days') . ' days'));
 
-        $carsModel = new CarsModel();
 
         // Check if car is available for the requested dates
-        $isCarAvailable = $carsModel->isCarAvailable($car_id, $this->request->getPost('start_date'), $booking_end_date);
+        $isCarAvailable = $this->carsModel->isCarAvailable($car_id, $this->request->getPost('start_date'), $booking_end_date);
 
         if (!$isCarAvailable) {
             // Car is not available for the requested dates, show error message
@@ -137,7 +135,7 @@ class CarsController extends BaseController
             'total_rent' => $this->request->getPost('rent_per_day') * $this->request->getPost('no_of_days'),
         ];
 
-        $bookingModel->insert($bookingData);
+        $this->bookingModel->insert($bookingData);
 
         return redirect()->to('/cars')->with('success', 'Car booked successfully.');
     }
@@ -150,21 +148,17 @@ class CarsController extends BaseController
             return redirect()->to('/');
         }
 
-        $carsModel = new CarsModel();
-        $userModel = new UserModel();
-        $bookingModel = new BookingModel();
-
         // Get cars added by the current agency
-        $cars = $carsModel->getCarsByAgencyID(session()->get('user')['id']);
+        $cars = $this->carsModel->getCarsByAgencyID(session()->get('user')['id']);
 
         $bookings = [];
 
         // Loop through each car and get its bookings
         foreach ($cars as $car) {
-            $carBookings = $bookingModel->getBookingsByCarID($car['id']);
+            $carBookings = $this->bookingModel->getBookingsByCarID($car['id']);
             foreach ($carBookings as $booking) {
                 $booking['car'] = $car;
-                $booking['user'] = $userModel->getUserByID($booking['customer_id']);
+                $booking['user'] = $this->userModel->getUserByID($booking['customer_id']);
                 $bookings[] = $booking;
             }
         }
@@ -183,17 +177,13 @@ class CarsController extends BaseController
             return redirect()->to('/');
         }
 
-        $carsModel = new CarsModel();
-        $userModel = new UserModel();
-        $bookingModel = new BookingModel();
-
         $bookings = [];
 
         // Loop through each car and get its bookings
-        $carBookings = $bookingModel->getBookingsByCustomerId(session()->get('user')['id']);
+        $carBookings = $this->bookingModel->getBookingsByCustomerId(session()->get('user')['id']);
         foreach ($carBookings as $booking) {
-            $booking['car'] = $carsModel->getCarByID($booking['car_id']);
-            $booking['user'] = $userModel->getUserByID($booking['car']['car_rental_agency_id']);
+            $booking['car'] = $this->carsModel->getCarByID($booking['car_id']);
+            $booking['user'] = $this->userModel->getUserByID($booking['car']['car_rental_agency_id']);
             $bookings[] = $booking;
         }
 
@@ -211,11 +201,8 @@ class CarsController extends BaseController
             return redirect()->to('/');
         }
 
-        $carsModel = new CarsModel();
-        $userModel = new UserModel();
-
         // Get car details
-        $car = $carsModel->getCarByID($car_id);
+        $car = $this->carsModel->getCarByID($car_id);
 
 
         $bookings = [];
@@ -224,7 +211,7 @@ class CarsController extends BaseController
         $carBookings = $this->bookingModel->getBookingsByCarID($car_id);
 
         foreach ($carBookings as $booking) {
-            $booking['customer'] = $userModel->getUserByID($booking['customer_id']);
+            $booking['customer'] = $this->userModel->getUserByID($booking['customer_id']);
             $bookings[] = $booking;
         }
 
